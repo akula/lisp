@@ -43,3 +43,37 @@
 				   :if-exists :supersede)
 	(funcall thunk))
   (ext:shell (concatename 'string "dot-Tpng -O " fname )))
+
+
+
+
+
+;;;;;; orc battle game
+
+
+(defun orc-battle ()
+  (init-monsters)
+  (init-player)
+  (game-loop)
+  (when (player-dead)
+    (princ "you have been killed. Game Over."))
+  (when (monsters-dead)
+    (princ "Congratulations! You have vanquished all of your foes.")))
+
+
+
+
+   (defun game-loop ()
+     (unless (or (player-dead)(monsters-dead))
+       (show-player)
+       (dotimes (k (1+ (truncate (/ (max 0 *paly-agility*) 15))))
+	 (unless (monster-dead)
+	   (show-monsters)
+	   (player-attack)))
+       (fresh-line)
+       (map 'list
+	    (lambda (m)
+	      (or (master-dead m)(monster-attact m)))
+	    *monsters*)
+       (game-loop)))
+		 
